@@ -1,0 +1,8 @@
+hmmlearn
+numpy
+sklearn
+librosa
+pyaudio
+pydub
+sounddevice
+noisereduce
