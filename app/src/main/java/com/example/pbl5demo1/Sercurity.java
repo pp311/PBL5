@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.pbl5demo1.model.DataSingleton;
 import com.example.pbl5demo1.model.DownloadImageTask;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import android.content.pm.ActivityInfo;
 
 public class Sercurity extends AppCompatActivity {
 
@@ -54,12 +56,18 @@ public class Sercurity extends AppCompatActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference().child("images/person.jpg");
 //Tai anh
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 String imageURL = uri.toString();
                 ImageView imageView = findViewById(R.id.image_view);
-                new DownloadImageTask(imageView).execute(imageURL);
+               // new DownloadImageTask(imageView).execute(imageURL);
+                if (!isDestroyed()) {
+                    Glide.with(Sercurity.this).load(imageURL).into(imageView);
+                }
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
